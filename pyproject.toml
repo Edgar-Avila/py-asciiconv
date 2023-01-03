@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "asciiconv"
+version = "0.1.0"
+description = "A python program to convert images and videos to ascii"
+authors = ["Edgar Avila Agramonte"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ffpyplayer = "^4.3.5"
+opencv-python = "^4.7.0.68"
+windows-curses = "^2.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
