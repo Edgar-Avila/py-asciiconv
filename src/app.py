@@ -1,6 +1,8 @@
 from argparse import ArgumentParser, BooleanOptionalAction
 from grayscale import Grayscale
-from util import media_path
+from util import media_path, is_img_path
+from display import display_img
+import cv2 as cv
 
 class App:
     def __init__(self) -> None:
@@ -20,4 +22,8 @@ class App:
 
     def run(self) -> None:
         self.parse_args()
-        print(self.filename, self.grayscale, self.audio)
+        asciimap = self.grayscale.asciimap()
+
+        if is_img_path(self.filename):
+            img = cv.imread(self.filename)
+            display_img(img, asciimap)
