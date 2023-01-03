@@ -57,7 +57,7 @@ def display_img(screen, img: cv.Mat, asciimap: List[str]):
         draw_img(screen, img, asciimap)
         if qpressed(screen):
             break
-        sleep(10)
+        sleep(0.01)
 
 @display
 def display_video(screen, video: cv.VideoCapture, asciimap: List[str]):
@@ -77,3 +77,15 @@ def display_video(screen, video: cv.VideoCapture, asciimap: List[str]):
         fix_too_fast_sleep(video, start, curr_frame, fps)
         if qpressed(screen):
             break
+
+@display
+def display_camera(screen, video: cv.VideoCapture, asciimap: List[str]):
+    screen.timeout(0)
+    while True:
+        ret, img = video.read()
+        if not ret:
+            break
+        draw_img(screen, img, asciimap)
+        if qpressed(screen):
+            break
+        sleep(0.01)

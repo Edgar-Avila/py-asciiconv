@@ -1,18 +1,18 @@
 from argparse import ArgumentParser, BooleanOptionalAction
 from grayscale import Grayscale
-from util import media_path, is_img_path, is_video_path
-from display import display_img, display_video
+from display import *
+from util import *
 import cv2 as cv
 
 class App:
     def __init__(self) -> None:
-        self.filename: str = ''
+        self.filename: str | None = ''
         self.grayscale: Grayscale = Grayscale.NORMAL
         self.audio: bool = False
 
     def parse_args(self) -> None:
         parser = ArgumentParser(description='Convert images and videos to ascii.')
-        parser.add_argument('-f', '--filename', help='File to convert', default='', type=media_path)
+        parser.add_argument('-f', '--filename', help='File to convert', type=media_path)
         parser.add_argument('-g', '--grayscale', help='Which grayscale to use', default=Grayscale.NORMAL ,type=Grayscale, choices=list(Grayscale))
         parser.add_argument('-a', '--audio', help='Play video with audio', default=False, action=BooleanOptionalAction)
         args = parser.parse_args()
@@ -24,10 +24,16 @@ class App:
         self.parse_args()
         asciimap = self.grayscale.asciimap()
 
-        if is_img_path(self.filename):
+        if self.filename is None:
+            video = cv.VideoCapture(0)
+            display_camera(video, asciimap)
+            video.release()
+
+        elif is_img_path(self.filename):
             img = cv.imread(self.filename)
             display_img(img, asciimap)
         
         elif is_video_path(self.filename):
            video = cv.VideoCapture(self.filename)
            display_video(video, asciimap)
+           video.release()
