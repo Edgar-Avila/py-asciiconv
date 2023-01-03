@@ -1,7 +1,7 @@
 from argparse import ArgumentParser, BooleanOptionalAction
 from grayscale import Grayscale
-from util import media_path, is_img_path
-from display import display_img
+from util import media_path, is_img_path, is_video_path
+from display import display_img, display_video
 import cv2 as cv
 
 class App:
@@ -27,3 +27,7 @@ class App:
         if is_img_path(self.filename):
             img = cv.imread(self.filename)
             display_img(img, asciimap)
+        
+        elif is_video_path(self.filename):
+           video = cv.VideoCapture(self.filename)
+           display_video(video, asciimap)
