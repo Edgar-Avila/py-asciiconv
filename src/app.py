@@ -9,14 +9,17 @@ class App:
     def __init__(self) -> None:
         self.filename: str | None = ''
         self.grayscale: Grayscale = Grayscale.NORMAL
+        self.save: bool = False
 
     def parse_args(self) -> None:
         parser = ArgumentParser(description='Convert images and videos to ascii.')
         parser.add_argument('-f', '--filename', help='File to convert', type=media_path)
         parser.add_argument('-g', '--grayscale', help='Which grayscale to use', default=Grayscale.NORMAL ,type=Grayscale, choices=list(Grayscale))
+        parser.add_argument('-s', '--save', help='Save an image', action=BooleanOptionalAction, default=False)
         args = parser.parse_args()
         self.filename = args.filename
         self.grayscale = args.grayscale
+        self.save = args.save
 
     def run(self) -> None:
         self.parse_args()
@@ -29,10 +32,15 @@ class App:
 
         elif is_img_path(self.filename):
             img = cv.imread(self.filename)
-            display_img(img, asciimap)
+            if self.save:
+                display_img(img, asciimap, self.filename)
+            else:
+                display_img(img, asciimap, None)
+
         
         elif is_video_path(self.filename):
             video = cv.VideoCapture(self.filename)
             player = MediaPlayer(self.filename)
             display_video(video, player, asciimap)
             video.release()
+            player.close_player()
