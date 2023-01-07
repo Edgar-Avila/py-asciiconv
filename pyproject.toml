@@ -11,6 +11,7 @@ python = "^3.10"
 ffpyplayer = "^4.3.5"
 opencv-python = "^4.7.0.68"
 windows-curses = "^2.3.1"
+pillow = "^9.4.0"
 
 
 [build-system]

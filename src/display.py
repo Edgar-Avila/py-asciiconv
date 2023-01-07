@@ -4,7 +4,7 @@ from typing import List
 import cv2 as cv
 from time import sleep
 from ffpyplayer.player import MediaPlayer
-from save import save_img
+from save import save_img, save_img_media
 
 
 def display(func):
@@ -16,7 +16,7 @@ def display(func):
 @display
 def save_display_img(screen, img: cv.Mat, asciimap: List[str], filename: str):
     size = screen.getmaxyx()
-    save_img(size, img, asciimap, filename)
+    save_img_media(size, img, asciimap, filename)
     screen.timeout(0)
     while True:
         draw_img(screen, img, asciimap)
