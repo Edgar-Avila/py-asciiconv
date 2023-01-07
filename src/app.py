@@ -5,6 +5,7 @@ from display import *
 from util import *
 import cv2 as cv
 
+
 class App:
     def __init__(self) -> None:
         self.filename: str | None = ''
@@ -12,10 +13,14 @@ class App:
         self.save: bool = False
 
     def parse_args(self) -> None:
-        parser = ArgumentParser(description='Convert images and videos to ascii.')
-        parser.add_argument('-f', '--filename', help='File to convert', type=media_path)
-        parser.add_argument('-g', '--grayscale', help='Which grayscale to use', default=Grayscale.NORMAL ,type=Grayscale, choices=list(Grayscale))
-        parser.add_argument('-s', '--save', help='Save an image', action=BooleanOptionalAction, default=False)
+        parser = ArgumentParser(
+            description='Convert images and videos to ascii.')
+        parser.add_argument('-f', '--filename',
+                            help='File to convert', type=media_path)
+        parser.add_argument('-g', '--grayscale', help='Which grayscale to use',
+                            default=Grayscale.NORMAL, type=Grayscale, choices=list(Grayscale))
+        parser.add_argument('-s', '--save', help='Save an image',
+                            action=BooleanOptionalAction, default=False)
         args = parser.parse_args()
         self.filename = args.filename
         self.grayscale = args.grayscale
@@ -33,11 +38,10 @@ class App:
         elif is_img_path(self.filename):
             img = cv.imread(self.filename)
             if self.save:
-                display_img(img, asciimap, self.filename)
+                save_display_img(img, asciimap, self.filename)
             else:
-                display_img(img, asciimap, None)
+                display_img(img, asciimap)
 
-        
         elif is_video_path(self.filename):
             video = cv.VideoCapture(self.filename)
             player = MediaPlayer(self.filename)
