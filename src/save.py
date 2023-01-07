@@ -6,15 +6,13 @@ from convert import convert_img
 import os
 
 
-def save_img(size, img: cv.Mat, asciimap: List[str], filename: str):
+def save_img(size, img: cv.Mat, asciimap: List[str], outfile: str):
     rows, cols = size
     resized = cv.resize(img, (cols - 1, rows - 1))
     converted = convert_img(resized, asciimap)
-    out_path, _ = os.path.splitext(filename)
-    out_path = f'{out_path}.txt'
-    with open(out_path, 'w') as file:
+    with open(outfile, 'w') as file:
         file.write(converted)
-    print(f'File saved to {out_path}')
+    print(f'File saved to {outfile}')
 
 
 def get_best_font(size: int):
@@ -66,16 +64,14 @@ def resized_wh(img: cv.Mat, term_size, keep_ratio: bool):
     return nw, nh
 
 
-def save_img_media(size, img: cv.Mat, asciimap: List[str], filename: str):
+def save_img_media(size, img: cv.Mat, asciimap: List[str], outfile: str):
     h, w, _ = img.shape
     nw, nh = resized_wh(img, size, False)
     resized = cv.resize(img, (nw, nh))
     converted = convert_img(resized, asciimap)
-    out_path, _ = os.path.splitext(filename)
-    out_path = f'{out_path}.'
-    out_path = 'D://out.jpg'
 
     out = text_to_image(converted)
     # out = out.resize((w, h))
     out.show()
-    out.save(out_path)
+    out.save(outfile)
+    print(f'File saved to {outfile}')

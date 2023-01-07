@@ -1,6 +1,6 @@
 from curses import wrapper
 from display_util import *
-from typing import List
+from typing import List, Tuple
 import cv2 as cv
 from time import sleep
 from ffpyplayer.player import MediaPlayer
@@ -9,30 +9,19 @@ from save import save_img, save_img_media
 
 def display(func):
     def wrap(*args, **kwds):
-        wrapper(func, *args, *kwds)
+        return wrapper(func, *args, *kwds)
     return wrap
 
 
 @display
-def save_display_img(screen, img: cv.Mat, asciimap: List[str], filename: str):
-    size = screen.getmaxyx()
-    save_img_media(size, img, asciimap, filename)
+def display_img(screen, img: cv.Mat, asciimap: List[str]) -> Tuple[int, int]:
     screen.timeout(0)
     while True:
         draw_img(screen, img, asciimap)
         if qpressed(screen):
             break
         sleep(0.01)
-
-
-@display
-def display_img(screen, img: cv.Mat, asciimap: List[str]):
-    screen.timeout(0)
-    while True:
-        draw_img(screen, img, asciimap)
-        if qpressed(screen):
-            break
-        sleep(0.01)
+    return screen.getmaxyx()
 
 
 @display
